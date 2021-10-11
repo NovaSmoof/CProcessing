@@ -47,7 +47,7 @@ int isValidPositionMode(CP_POSITION_MODE mode)
 // Public Functions:
 //------------------------------------------------------------------------------
 
-CP_API void CP_Settings_Fill(CP_Color c)
+CP_API void CP_Settings_Set_Fill(CP_Color c)
 {
 	nvgFillColor(GetCPCore()->nvg, nvgRGBA(c.r, c.g, c.b, c.a));
 
@@ -60,7 +60,7 @@ CP_API void CP_Settings_NoFill(void)
 	GetDrawInfo()->fill = FALSE;
 }
 
-CP_API void CP_Settings_Stroke(CP_Color c)
+CP_API void CP_Settings_Set_Stroke(CP_Color c)
 {
 	nvgStrokeColor(GetCPCore()->nvg, nvgRGBA(c.r, c.g, c.b, c.a));
 
@@ -73,27 +73,27 @@ CP_API void CP_Settings_NoStroke(void)
 	GetDrawInfo()->stroke = FALSE;
 }
 
-CP_API void CP_Settings_StrokeWeight(float weight)
+CP_API void CP_Settings_Set_StrokeWeight(float weight)
 {
 	nvgStrokeWidth(GetCPCore()->nvg, weight);
 }
 
-CP_API void CP_Settings_Tint(CP_Color c)
+CP_API void CP_Settings_Set_Tint(CP_Color c)
 {
 	nvgTintColor(GetCPCore()->nvg, nvgRGBA(c.r, c.g, c.b, c.a));
 }
 
 CP_API void CP_Settings_NoTint(void)
 {
-	CP_Settings_Tint(CP_Color_Create(255, 255, 255, 255));
+	CP_Settings_Set_Tint(CP_Color_Create(255, 255, 255, 255));
 }
 
-CP_API void CP_Settings_AntiAlias(CP_BOOL antiAlias)
+CP_API void CP_Settings_Set_AntiAlias(CP_BOOL antiAlias)
 {
 	nvgShapeAntiAlias(GetCPCore()->nvg, antiAlias);
 }
 
-CP_API void CP_Settings_LineCapMode(CP_LINE_CAP_MODE capMode)
+CP_API void CP_Settings_Set_LineCapMode(CP_LINE_CAP_MODE capMode)
 {
 	if (capMode == CP_LINE_CAP_BUTT ||
 		capMode == CP_LINE_CAP_ROUND ||
@@ -103,7 +103,7 @@ CP_API void CP_Settings_LineCapMode(CP_LINE_CAP_MODE capMode)
 	}
 }
 
-CP_API void CP_Settings_LineJointMode(CP_LINE_JOINT_MODE jointMode)
+CP_API void CP_Settings_Set_LineJointMode(CP_LINE_JOINT_MODE jointMode)
 {
 	if (jointMode == CP_LINE_JOINT_ROUND ||
 		jointMode == CP_LINE_JOINT_BEVEL ||
@@ -113,25 +113,25 @@ CP_API void CP_Settings_LineJointMode(CP_LINE_JOINT_MODE jointMode)
 	}
 }
 
-CP_API void CP_Settings_RectMode(CP_POSITION_MODE mode)
+CP_API void CP_Settings_Set_RectMode(CP_POSITION_MODE mode)
 {
 	if (isValidPositionMode(mode))
 		GetDrawInfo()->rect_mode = mode;
 }
 
-CP_API void CP_Settings_EllipseMode(CP_POSITION_MODE mode)
+CP_API void CP_Settings_Set_EllipseMode(CP_POSITION_MODE mode)
 {
 	if (isValidPositionMode(mode))
 		GetDrawInfo()->ellipse_mode = mode;
 }
 
-CP_API void CP_Settings_ImageMode(CP_POSITION_MODE mode)
+CP_API void CP_Settings_Set_ImageMode(CP_POSITION_MODE mode)
 {
 	if (isValidPositionMode(mode))
 		GetDrawInfo()->image_mode = mode;
 }
 
-CP_API void CP_Settings_BlendMode(CP_BLEND_MODE blendMode)
+CP_API void CP_Settings_Set_BlendMode(CP_BLEND_MODE blendMode)
 {
 	CP_CorePtr CORE = GetCPCore();
 	if (!CORE || !CORE->nvg)
@@ -161,24 +161,24 @@ CP_API void CP_Settings_BlendMode(CP_BLEND_MODE blendMode)
 	}
 }
 
-CP_API void CP_Settings_ImageFilterMode(CP_IMAGE_FILTER_MODE filterMode)
+CP_API void CP_Settings_Set_ImageFilterMode(CP_IMAGE_FILTER_MODE filterMode)
 {
 	nvgTextureFilter(GetCPCore()->nvg, filterMode);
 }
 
-CP_API void CP_Settings_ImageWrapMode(CP_IMAGE_WRAP_MODE wrapMode)
+CP_API void CP_Settings_Set_ImageWrapMode(CP_IMAGE_WRAP_MODE wrapMode)
 {
 	nvgTextureWrap(GetCPCore()->nvg, wrapMode);
 }
 
-CP_API void CP_Settings_TextSize(float size)
+CP_API void CP_Settings_Set_TextSize(float size)
 {
 	CP_CorePtr CORE = GetCPCore();
 	if (!CORE || !CORE->nvg) return;
 	nvgFontSize(CORE->nvg, size);
 }
 
-CP_API void CP_Settings_TextAlignment(CP_TEXT_ALIGN_HORIZONTAL h, CP_TEXT_ALIGN_VERTICAL v)
+CP_API void CP_Settings_Set_TextAlignment(CP_TEXT_ALIGN_HORIZONTAL h, CP_TEXT_ALIGN_VERTICAL v)
 {
 	int flags = h | v;
 	CP_CorePtr CORE = GetCPCore();
@@ -186,7 +186,7 @@ CP_API void CP_Settings_TextAlignment(CP_TEXT_ALIGN_HORIZONTAL h, CP_TEXT_ALIGN_
 	nvgTextAlign(CORE->nvg, flags);
 }
 
-CP_API void CP_Settings_Scale(float xScale, float yScale)
+CP_API void CP_Settings_Set_Scale(float xScale, float yScale)
 {
 	nvgScale(GetCPCore()->nvg, xScale, yScale);
 
@@ -194,7 +194,7 @@ CP_API void CP_Settings_Scale(float xScale, float yScale)
 	CP_Input_SetWorldMouseDirty();
 }
 
-CP_API void CP_Settings_Rotate(float degrees)
+CP_API void CP_Settings_Set_Rotate(float degrees)
 {
 	nvgRotate(GetCPCore()->nvg, CP_Math_Radians(degrees));
 
@@ -202,7 +202,7 @@ CP_API void CP_Settings_Rotate(float degrees)
 	CP_Input_SetWorldMouseDirty();
 }
 
-CP_API void CP_Settings_Translate(float x, float y)
+CP_API void CP_Settings_Set_Translate(float x, float y)
 {
 	nvgTranslate(GetCPCore()->nvg, x, y);
 
@@ -210,7 +210,7 @@ CP_API void CP_Settings_Translate(float x, float y)
 	CP_Input_SetWorldMouseDirty();
 }
 
-CP_API void CP_Settings_ApplyMatrix(CP_Matrix m)
+CP_API void CP_Settings_Set_ApplyMatrix(CP_Matrix m)
 {
 	nvgTransform(GetCPCore()->nvg, m.m00, m.m10, m.m01, m.m11, m.m02, m.m12);
 

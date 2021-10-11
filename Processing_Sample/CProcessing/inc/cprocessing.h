@@ -53,12 +53,47 @@ extern "C"
 //---------------------------------------------------------
 // ENGINE:
 //		Functions managing code flow
+
+typedef struct CP_GameStates
+{
+	FunctionPtr init;
+	FunctionPtr update;
+	FunctionPtr exit;
+} CP_GameStates;
+
+
+typedef struct CP_Int_Pair
+{
+	int x;
+	int y;
+} CP_Int_Pair;
+
+
+typedef struct CP_Float_Pair
+{
+	float x;
+	float y;
+} CP_Float_Pair;
+
+typedef struct CP_TEXT_ALIGN_HORIZONTAL_Pair
+{
+	float x;
+	float y;
+} CP_TEXT_ALIGN_HORIZONTAL_Pair;
+
+
+
+
+
 CP_API void				CP_Engine_Run						(void);
 CP_API void				CP_Engine_Terminate					(void);
 CP_API void				CP_Engine_SetNextGameState			(FunctionPtr init, FunctionPtr update, FunctionPtr exit);
+CP_API CP_GameStates    CP_Engine_GetCurrentGameStates      (void);
 CP_API void				CP_Engine_SetNextGameStateForced	(FunctionPtr init, FunctionPtr update, FunctionPtr exit);
 CP_API void				CP_Engine_SetPreUpdateFunction		(FunctionPtr preUpdateFunction);
+CP_API FunctionPtr      CP_Engine_GetPreUpdateFunction		(void);
 CP_API void				CP_Engine_SetPostUpdateFunction		(FunctionPtr postUpdateFunction);
+CP_API FunctionPtr      CP_Engine_GetPostUpdateFunction		(void);
 
 
 //---------------------------------------------------------
@@ -66,6 +101,7 @@ CP_API void				CP_Engine_SetPostUpdateFunction		(FunctionPtr postUpdateFunction)
 //		OS functions supporting window management and timing
 CP_API void				CP_System_SetWindowSize				(int new_width, int new_height);
 CP_API void				CP_System_SetWindowPosition			(int x, int y);
+CP_API CP_Int_Pair		CP_System_GetWindowPosition			(void);
 CP_API void				CP_System_Fullscreen				(void);
 CP_API void				CP_System_FullscreenAdvanced		(int targetWidth, int targetHeight);
 CP_API int				CP_System_GetWindowWidth			(void);
@@ -86,31 +122,50 @@ CP_API float			CP_System_GetSeconds				(void);
 //---------------------------------------------------------
 // SETTINGS:
 //		Render settings
-CP_API void				CP_Settings_Fill					(CP_Color c);
-CP_API void				CP_Settings_NoFill					(void);
-CP_API void				CP_Settings_Stroke					(CP_Color c);
-CP_API void				CP_Settings_NoStroke				(void);
-CP_API void				CP_Settings_StrokeWeight			(float weight);
-CP_API void				CP_Settings_Tint					(CP_Color c);
-CP_API void				CP_Settings_NoTint					(void);
-CP_API void				CP_Settings_AntiAlias				(CP_BOOL antiAlias);
-CP_API void				CP_Settings_LineCapMode				(CP_LINE_CAP_MODE capMode);
-CP_API void				CP_Settings_LineJointMode			(CP_LINE_JOINT_MODE jointMode);
-CP_API void				CP_Settings_RectMode				(CP_POSITION_MODE mode);
-CP_API void				CP_Settings_EllipseMode				(CP_POSITION_MODE mode);
-CP_API void				CP_Settings_ImageMode				(CP_POSITION_MODE mode);
-CP_API void				CP_Settings_BlendMode				(CP_BLEND_MODE blendMode);
-CP_API void				CP_Settings_ImageFilterMode			(CP_IMAGE_FILTER_MODE filterMode);
-CP_API void				CP_Settings_ImageWrapMode			(CP_IMAGE_WRAP_MODE wrapMode);
-CP_API void				CP_Settings_TextSize				(float size);
-CP_API void				CP_Settings_TextAlignment			(CP_TEXT_ALIGN_HORIZONTAL h, CP_TEXT_ALIGN_VERTICAL v);
-CP_API void				CP_Settings_Scale					(float xScale, float yScale);
-CP_API void				CP_Settings_Rotate					(float degrees);
-CP_API void				CP_Settings_Translate				(float x, float y);
-CP_API void				CP_Settings_ApplyMatrix				(CP_Matrix matrix);
-CP_API void				CP_Settings_ResetMatrix				(void);
-CP_API void				CP_Settings_Save					(void);
-CP_API void				CP_Settings_Restore					(void);
+CP_API void								CP_Settings_Set_Fill				(CP_Color c);
+CP_API CP_Color 						CP_Settings_Get_Fill				(void);
+CP_API void								CP_Settings_NoFill					(void);
+CP_API void								CP_Settings_Set_Stroke				(CP_Color c);
+CP_API CP_Color 						CP_Settings_Get_Stroke				(void);
+CP_API void								CP_Settings_NoStroke				(void);
+CP_API void								CP_Settings_Set_StrokeWeight		(float weight);
+CP_API float 							CP_Settings_Get_StrokeWeight		(void);
+CP_API void								CP_Settings_Set_Tint				(CP_Color c);
+CP_API CP_Color 						CP_Settings_Get_Tint				(void);
+CP_API void								CP_Settings_NoTint					(void);
+CP_API void								CP_Settings_Set_AntiAlias			(CP_BOOL antiAlias);
+CP_API CP_BOOL 							CP_Settings_Get_AntiAlias			(void);
+CP_API void								CP_Settings_Set_LineCapMode			(CP_LINE_CAP_MODE capMode);
+CP_API CP_LINE_CAP_MODE					CP_Settings_Get_LineCapMode			(void);
+CP_API void								CP_Settings_Set_LineJointMode		(CP_LINE_JOINT_MODE jointMode);
+CP_API CP_LINE_JOINT_MODE				CP_Settings_Get_LineJointMode		(void);
+CP_API void								CP_Settings_Set_RectMode			(CP_POSITION_MODE mode);
+CP_API CP_POSITION_MODE					CP_Settings_Get_RectMode			(void);
+CP_API void								CP_Settings_Set_EllipseMode			(CP_POSITION_MODE mode);
+CP_API CP_POSITION_MODE 				CP_Settings_Get_EllipseMode			(void);
+CP_API void								CP_Settings_Set_ImageMode			(CP_POSITION_MODE mode);
+CP_API CP_POSITION_MODE 				CP_Settings_Get_ImageMode			(void);
+CP_API void								CP_Settings_Set_BlendMode			(CP_BLEND_MODE blendMode);
+CP_API CP_BLEND_MODE 					CP_Settings_Get_BlendMode			(void);
+CP_API void								CP_Settings_Set_ImageFilterMode		(CP_IMAGE_FILTER_MODE filterMode);
+CP_API CP_IMAGE_FILTER_MODE				CP_Settings_Get_ImageFilterMode		(void);
+CP_API void								CP_Settings_Set_ImageWrapMode		(CP_IMAGE_WRAP_MODE wrapMode);
+CP_API CP_IMAGE_WRAP_MODE 				CP_Settings_Get_ImageWrapMode		(void);
+CP_API void								CP_Settings_Set_TextSize			(float size);
+CP_API float 							CP_Settings_Get_TextSize			(void);
+CP_API void								CP_Settings_Set_TextAlignment		(CP_TEXT_ALIGN_HORIZONTAL h, CP_TEXT_ALIGN_VERTICAL v);
+CP_API CP_TEXT_ALIGN_HORIZONTAL_Pair	CP_Settings_Get_TextAlignment		();
+CP_API void								CP_Settings_Set_Scale				(float xScale, float yScale);
+CP_API CP_Float_Pair					CP_Settings_Get_Scale				();
+CP_API void								CP_Settings_Set_Rotate				(float degrees);
+CP_API float 							CP_Settings_Get_Rotate				(void);
+CP_API void								CP_Settings_Set_Translate			(float x, float y);
+CP_API CP_Float_Pair					CP_Settings_Get_Translate			(void);
+CP_API void								CP_Settings_Set_ApplyMatrix			(CP_Matrix matrix);
+CP_API CP_Matrix 						CP_Settings_Get_ApplyMatrix			(void);
+CP_API void								CP_Settings_ResetMatrix				(void);
+CP_API void								CP_Settings_Save					(void);
+CP_API void								CP_Settings_Restore					(void);
 
 
 //---------------------------------------------------------
