@@ -51,8 +51,8 @@ extern "C"
 
 
 //---------------------------------------------------------
-// ENGINE:
-//		Functions managing code flow
+// INTERFACE:
+//		Structures used to return values from getter functions 
 
 typedef struct CP_GameStates
 {
@@ -61,13 +61,11 @@ typedef struct CP_GameStates
 	FunctionPtr exit;
 } CP_GameStates;
 
-
 typedef struct CP_Int_Pair
 {
 	int x;
 	int y;
 } CP_Int_Pair;
-
 
 typedef struct CP_Float_Pair
 {
@@ -82,8 +80,9 @@ typedef struct CP_TEXT_ALIGN_HORIZONTAL_Pair
 } CP_TEXT_ALIGN_HORIZONTAL_Pair;
 
 
-
-
+//---------------------------------------------------------
+// ENGINE:
+//		Functions managing code flow
 
 CP_API void				CP_Engine_Run						(void);
 CP_API void				CP_Engine_Terminate					(void);
@@ -123,21 +122,28 @@ CP_API float			CP_System_GetSeconds				(void);
 // SETTINGS:
 //		Render settings
 CP_API void								CP_Settings_Set_Fill				(CP_Color c);
+//todo fix nvg so that it can return it's state
 CP_API CP_Color 						CP_Settings_Get_Fill				(void);
 CP_API void								CP_Settings_NoFill					(void);
 CP_API void								CP_Settings_Set_Stroke				(CP_Color c);
+//todo fix nvg so that it can return it's state
 CP_API CP_Color 						CP_Settings_Get_Stroke				(void);
 CP_API void								CP_Settings_NoStroke				(void);
 CP_API void								CP_Settings_Set_StrokeWeight		(float weight);
+//todo fix nvg so that it can return it's state
 CP_API float 							CP_Settings_Get_StrokeWeight		(void);
 CP_API void								CP_Settings_Set_Tint				(CP_Color c);
+//todo fix nvg so that it can return it's state
 CP_API CP_Color 						CP_Settings_Get_Tint				(void);
 CP_API void								CP_Settings_NoTint					(void);
 CP_API void								CP_Settings_Set_AntiAlias			(CP_BOOL antiAlias);
+//todo fix nvg so that it can return it's state
 CP_API CP_BOOL 							CP_Settings_Get_AntiAlias			(void);
 CP_API void								CP_Settings_Set_LineCapMode			(CP_LINE_CAP_MODE capMode);
+//todo fix nvg so that it can return it's state
 CP_API CP_LINE_CAP_MODE					CP_Settings_Get_LineCapMode			(void);
 CP_API void								CP_Settings_Set_LineJointMode		(CP_LINE_JOINT_MODE jointMode);
+//todo fix nvg so that it can return it's state
 CP_API CP_LINE_JOINT_MODE				CP_Settings_Get_LineJointMode		(void);
 CP_API void								CP_Settings_Set_RectMode			(CP_POSITION_MODE mode);
 CP_API CP_POSITION_MODE					CP_Settings_Get_RectMode			(void);
@@ -146,22 +152,31 @@ CP_API CP_POSITION_MODE 				CP_Settings_Get_EllipseMode			(void);
 CP_API void								CP_Settings_Set_ImageMode			(CP_POSITION_MODE mode);
 CP_API CP_POSITION_MODE 				CP_Settings_Get_ImageMode			(void);
 CP_API void								CP_Settings_Set_BlendMode			(CP_BLEND_MODE blendMode);
+//todo fix nvg so that it can return it's state
 CP_API CP_BLEND_MODE 					CP_Settings_Get_BlendMode			(void);
 CP_API void								CP_Settings_Set_ImageFilterMode		(CP_IMAGE_FILTER_MODE filterMode);
+//todo fix nvg so that it can return it's state
 CP_API CP_IMAGE_FILTER_MODE				CP_Settings_Get_ImageFilterMode		(void);
 CP_API void								CP_Settings_Set_ImageWrapMode		(CP_IMAGE_WRAP_MODE wrapMode);
+//todo fix nvg so that it can return it's state
 CP_API CP_IMAGE_WRAP_MODE 				CP_Settings_Get_ImageWrapMode		(void);
 CP_API void								CP_Settings_Set_TextSize			(float size);
+//todo fix nvg so that it can return it's state
 CP_API float 							CP_Settings_Get_TextSize			(void);
 CP_API void								CP_Settings_Set_TextAlignment		(CP_TEXT_ALIGN_HORIZONTAL h, CP_TEXT_ALIGN_VERTICAL v);
+//todo fix nvg so that it can return it's state
 CP_API CP_TEXT_ALIGN_HORIZONTAL_Pair	CP_Settings_Get_TextAlignment		();
 CP_API void								CP_Settings_Set_Scale				(float xScale, float yScale);
+//todo fix nvg so that it can return it's state
 CP_API CP_Float_Pair					CP_Settings_Get_Scale				();
 CP_API void								CP_Settings_Set_Rotate				(float degrees);
+//todo fix nvg so that it can return it's state
 CP_API float 							CP_Settings_Get_Rotate				(void);
 CP_API void								CP_Settings_Set_Translate			(float x, float y);
+//todo fix nvg so that it can return it's state
 CP_API CP_Float_Pair					CP_Settings_Get_Translate			(void);
 CP_API void								CP_Settings_Set_ApplyMatrix			(CP_Matrix matrix);
+//todo fix nvg so that it can return it's state
 CP_API CP_Matrix 						CP_Settings_Get_ApplyMatrix			(void);
 CP_API void								CP_Settings_ResetMatrix				(void);
 CP_API void								CP_Settings_Save					(void);
@@ -185,6 +200,7 @@ CP_API CP_ColorHSL		CP_ColorHSL_FromColor				(CP_Color rgb);
 // GRAPHICS:
 //		Functions related to drawing primitive shapes
 CP_API void				CP_Graphics_ClearBackground			(CP_Color c);
+CP_API CP_Color			CP_Graphics_GetBackground			(void);
 CP_API void				CP_Graphics_DrawPoint				(float x, float y);
 CP_API void				CP_Graphics_DrawLine				(float x1, float y1, float x2, float y2);
 CP_API void				CP_Graphics_DrawLineAdvanced		(float x1, float y1, float x2, float y2, float degrees);
@@ -244,6 +260,8 @@ CP_API float			CP_Sound_GetGroupPitch				(CP_SOUND_GROUP group);
 //		All functions related to loading and drawing fonts
 CP_API CP_Font			CP_Font_GetDefault					(void);
 CP_API CP_Font			CP_Font_Load						(const char* filepath);
+//todo fix nvg so that it can return it's state
+CP_API CP_Font			CP_Font_Get							(void);
 CP_API void				CP_Font_Set							(CP_Font font);
 CP_API void				CP_Font_DrawText					(const char* text, float x, float y);
 CP_API void				CP_Font_DrawTextBox					(const char* text, float x, float y, float rowWidth);

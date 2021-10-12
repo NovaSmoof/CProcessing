@@ -96,6 +96,15 @@ CP_API void CP_Graphics_ClearBackground(CP_Color c)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
+CP_API CP_Color CP_Graphics_GetBackground(void)
+{
+	// Acquires the color from the openGL state machine
+	GLfloat clearColor[4];
+	glGetFloatv(GL_COLOR_CLEAR_VALUE, clearColor);
+
+	return CP_Color_Create(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
+}
+
 CP_API void CP_Graphics_DrawPoint(float x, float y)
 {
 	CP_CorePtr CORE = GetCPCore();
